@@ -1,0 +1,55 @@
+ChatBot - how to create
+
+1. Structure
+UserQuestion -> Backend(Python) -> Embedding model -> Vector Database Search -> Retrieve Medical docs -> LLM Reads docs -> Generate ans 
+
+2. Create project Folder
+ hospital-ai-assistant -> backend / data / vectorDB
+
+3. Create virtual environment
+~python -m venv venv 
+-> activate
+~venv\Scripts\Activate
+
+4. Installing first dependency(all inside venv)
+~pip install langchain
+
+4. Install local LLM runtime 
+-> install ollama then pull
+~ollama pull llama3
+-> test ollama by asking any question	
+~ollama run llama3
+
+5. Python interaction with the llm
+-> install
+~pip install langchain-community
+
+-> make file 
+-> backend/test_llm.py
+	~import ollama
+	~load llama3 model
+	~send a prompt
+	~print response
+
+6. Add medical data file(temporary) in data folder
+
+7. Install required package
+~pip install pypdf
+ 
+8. load data in a file in backend from data file in data folder
+	~read text file
+	~store content in variable 
+	~print it
+
+9. Text -Splitting - core of RAG
+9.1 -> install library
+~pip install langchain-text-splitters
+
+9.2 -> create a backend file to split text
+	~load text from data file
+	~import splitter 
+	~create splitter
+	~split text
+	~print output
+
+
