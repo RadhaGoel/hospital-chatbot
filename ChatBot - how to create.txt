@@ -52,4 +52,47 @@ UserQuestion -> Backend(Python) -> Embedding model -> Vector Database Search -> 
 	~split text
 	~print output
 
+10. Creating Embeddings
+10.1 -> Install Embedding model
+	~pip install sentence-transformers
+
+10.2 -> create file in backend
+	~import model
+	~load model
+	~take chunks from splitter
+	~convert to embeddings
+	~print result
+
+11. Vector Database(FAISS) 
+	~fast similarity search
+	~ optimised indexing
+	~scalable retrieval
+(Brain of the chatbot)
+
+11.1 -> install faiss
+	~pip install faiss-cpu
+
+11.2 -> create file inside backend
+	~import faiss from langchain
+	~load your chunks
+	~create embedding model
+	~create faiss DB
+	~store db locally
+	~load db again
+	~perform search
+	~print results 
+
+12 -> RAG pipeline
+12.1 -> create file in backend 
+	~load vector db
+	~take user query
+	~retrieve relevant docs
+	~build context
+	~create prompt
+	~send to llm
+	~print ans
+
+
+
+
 
