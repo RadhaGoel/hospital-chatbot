@@ -93,6 +93,17 @@ UserQuestion -> Backend(Python) -> Embedding model -> Vector Database Search -> 
 	~print ans
 
 
+13 -> make app.py - fast api app for the project
+
+   run it by 
+~uvicorn backend.app:app --reload
+
+
+14. add frontend inside folder - index.html / or react and run it 
+
+
+
+
 
 
 

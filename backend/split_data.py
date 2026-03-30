@@ -1,5 +1,5 @@
 #1. Load text from file
-from load_data import file_content
+from backend.load_data import file_content
 
 #2. import text splitter
 from langchain_text_splitters import RecursiveCharacterTextSplitter

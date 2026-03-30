@@ -3,7 +3,7 @@ from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 
-from split_data import chunks
+from backend.split_data import chunks
 # Create an instance of the HuggingFaceEmbeddings class
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
@@ -21,7 +21,7 @@ loaded_vector_store = FAISS.load_local(
 )
 
 # Example query
-query = "What is high body temperature?"
+query = "high body temperature?"
 # Perform a similarity search using the loaded vector store
 similar_chunks = loaded_vector_store.similarity_search(query)
 
