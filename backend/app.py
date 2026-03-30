@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from backend.db_query import get_all_doctors, get_doctors_by_specialization
 
 # Import your vector DB
 from backend.vector_store import loaded_vector_store
@@ -39,35 +40,58 @@ def home():
 # Main chat endpoint
 @app.post("/chat")
 def chat(request: QueryRequest):
-    user_query = request.query
+    user_query = request.query.lower()
 
-    # Step 1: Retrieve similar chunks
-    docs = loaded_vector_store.similarity_search(user_query)
+    #STEP 1: DATABASE LOGIC
+    if "doctor" in user_query:
 
-    # Step 2: Extract context
+        if "heart" in user_query:
+            doctors = get_doctors_by_specialization("Cardio")
+
+        elif "skin" in user_query:
+            doctors = get_doctors_by_specialization("Derma")
+
+        elif "brain" in user_query:
+            doctors = get_doctors_by_specialization("Neuro")
+
+        else:
+            doctors = get_all_doctors()
+
+        if doctors:
+            formatted = "\n".join([f"{d[0]} - {d[1] if len(d)>1 else ''}" for d in doctors])
+
+            return {
+                "query": request.query,
+                "response": f"Here are available doctors:\n{formatted}"
+            }
+
+        else:
+            return {
+                "response": "No doctors found."
+            }
+
+    #STEP 2: RAG LOGIC (existing)
+    docs = loaded_vector_store.similarity_search(request.query)
     context = "\n".join([doc.page_content for doc in docs])
 
-    # Step 3: Create prompt
     prompt = f"""
 You are a helpful medical assistant.
 
-Use ONLY the context below to answer the question.
-Do not guess. If unsure, say you don't know.
+Give:
+- possible causes
+- precautions
+- when to see a doctor
 
 Context:
 {context}
 
 Question:
-{user_query}
-
-Answer clearly and safely.
+{request.query}
 """
 
-    # Step 4: Get response from LLM
     response = llm.invoke(prompt)
 
-    # Step 5: Return response
     return {
-        "query": user_query,
+        "query": request.query,
         "response": response
     }
